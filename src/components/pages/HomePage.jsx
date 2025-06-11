@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
-import { fileService } from '@/services';
+import { fileService, uploadSessionService } from '@/services';
 import FileDropZone from '@/components/organisms/FileDropZone';
 import FileUploadList from '@/components/organisms/FileUploadList';
 import UploadSessionSummary from '@/components/organisms/UploadSessionSummary';
@@ -135,14 +135,21 @@ function HomePage() {
     }
 
     setIsUploading(true);
-
-    try {
+try {
       // Create upload session
-      const session = await fileService.createUploadSession({
+      const session = await uploadSessionService.createUploadSession({
         totalFiles: filesToUpload.length,
         totalSize: filesToUpload.reduce((sum, f) => sum + f.size, 0),
         startTime: Date.now()
       });
+
+      if (!session) {
+        toast.error('Failed to create upload session');
+        return;
+      }
+
+      let uploadedCount = 0;
+      let uploadedSizeTotal = 0;
 
       // Upload files one by one
       for (const file of filesToUpload) {
@@ -160,15 +167,31 @@ function HomePage() {
             ));
           }
 
-          // Upload file
-          await fileService.uploadFile(file);
+          // Upload file to database
+          const uploadedFile = await fileService.create({
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            lastModified: file.lastModified,
+            uploadProgress: 100,
+            status: 'completed',
+            error: null,
+            preview: file.preview,
+            uploadedAt: Date.now()
+          });
 
-          // Mark as completed
-          setFiles(prev => prev.map(f =>
-            f.id === file.id ? { ...f, status: 'completed', uploadProgress: 100 } : f
-          ));
+          if (uploadedFile) {
+            // Mark as completed
+            setFiles(prev => prev.map(f =>
+              f.id === file.id ? { ...f, status: 'completed', uploadProgress: 100 } : f
+            ));
 
-          toast.success(`${file.name} uploaded successfully`);
+            uploadedCount++;
+            uploadedSizeTotal += file.size;
+            toast.success(`${file.name} uploaded successfully`);
+          } else {
+            throw new Error('Upload failed');
+          }
         } catch (error) {
           setFiles(prev => prev.map(f =>
             f.id === file.id ? {
@@ -183,9 +206,10 @@ function HomePage() {
       }
 
       // Complete session
-      await fileService.completeUploadSession(session.id, {
+      await uploadSessionService.completeUploadSession(session.id, {
         endTime: Date.now(),
-        uploadedFiles: filesToUpload.length
+        uploadedFiles: uploadedCount,
+        uploadedSize: uploadedSizeTotal
       });
 
       toast.success('All files uploaded successfully!');
