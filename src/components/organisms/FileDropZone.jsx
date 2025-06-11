@@ -1,18 +1,20 @@
+import React from 'react';
 import { motion } from 'framer-motion';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
 
-function MainFeature({ 
-  isDragging, 
-  onDragOver, 
-  onDragLeave, 
-  onDrop, 
-  onFileSelect, 
-  acceptedTypes 
+function FileDropZone({
+  isDragging,
+  onDragOver,
+  onDragLeave,
+  onDrop,
+  onFileSelect,
+  acceptedTypes
 }) {
   const getAcceptedTypesDisplay = () => {
     const typeMap = {
       'image/jpeg': 'JPG',
-      'image/png': 'PNG', 
+      'image/png': 'PNG',
       'image/gif': 'GIF',
       'image/webp': 'WebP',
       'application/pdf': 'PDF',
@@ -23,7 +25,7 @@ function MainFeature({
       'application/vnd.ms-excel': 'XLS',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'XLSX'
     };
-    
+
     return acceptedTypes.map(type => typeMap[type] || type.split('/')[1].toUpperCase()).join(', ');
   };
 
@@ -36,8 +38,8 @@ function MainFeature({
       className={`
         relative border-2 border-dashed rounded-2xl p-12 text-center transition-all duration-200 ease-out
         cursor-pointer group overflow-hidden max-w-full
-        ${isDragging 
-          ? 'border-primary bg-primary/5 shadow-lg shadow-primary/20 scale-105' 
+        ${isDragging
+          ? 'border-primary bg-primary/5 shadow-lg shadow-primary/20 scale-105'
           : 'border-surface-300 hover:border-primary/50 hover:bg-surface-50'
         }
       `}
@@ -50,7 +52,7 @@ function MainFeature({
       `}>
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10" />
       </div>
-      
+
       <div className="relative z-10 space-y-6">
         {/* Upload Icon */}
         <motion.div
@@ -60,14 +62,14 @@ function MainFeature({
         >
           <div className={`
             w-20 h-20 rounded-full flex items-center justify-center transition-all duration-200
-            ${isDragging 
-              ? 'gradient-primary shadow-lg' 
+            ${isDragging
+              ? 'gradient-primary shadow-lg'
               : 'bg-surface-100 group-hover:bg-primary/10'
             }
           `}>
-            <ApperIcon 
-              name={isDragging ? "Upload" : "FolderPlus"} 
-              size={32} 
+            <ApperIcon
+              name={isDragging ? "Upload" : "FolderPlus"}
+              size={32}
               className={`transition-colors duration-200 ${
                 isDragging ? 'text-white' : 'text-surface-400 group-hover:text-primary'
               }`}
@@ -81,12 +83,12 @@ function MainFeature({
             {isDragging ? 'Drop files here' : 'Drag files here'}
           </h3>
           <p className="text-surface-600">
-            {isDragging 
-              ? 'Release to upload your files' 
+            {isDragging
+              ? 'Release to upload your files'
               : 'or click to browse from your device'
             }
           </p>
-          
+
           {/* File Types */}
           <div className="pt-2">
             <p className="text-sm text-surface-500 break-words">
@@ -101,15 +103,17 @@ function MainFeature({
         {/* Browse Button */}
         {!isDragging && (
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
             className="pt-4"
           >
-            <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-lg gradient-primary 
-                          text-white font-medium shadow-lg hover:shadow-xl transition-shadow">
+            <Button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center space-x-2 px-6 py-3 rounded-lg gradient-primary
+                            text-white font-medium shadow-lg hover:shadow-xl transition-shadow"
+            >
               <ApperIcon name="FolderOpen" size={16} />
               <span>Browse Files</span>
-            </div>
+            </Button>
           </motion.div>
         )}
       </div>
@@ -149,4 +153,4 @@ function MainFeature({
   );
 }
 
-export default MainFeature;
+export default FileDropZone;

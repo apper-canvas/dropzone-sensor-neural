@@ -1,8 +1,10 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import ApperIcon from '../components/ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
 
-function NotFound() {
+function NotFoundPage() {
   const navigate = useNavigate();
 
   return (
@@ -18,7 +20,7 @@ function NotFound() {
         >
           <ApperIcon name="FileX" className="w-24 h-24 text-surface-300 mx-auto" />
         </motion.div>
-        
+
         <div className="space-y-3">
           <h1 className="text-4xl font-heading font-bold text-surface-900">404</h1>
           <h2 className="text-xl font-semibold text-surface-700">Page Not Found</h2>
@@ -26,8 +28,8 @@ function NotFound() {
             The page you're looking for doesn't exist or has been moved.
           </p>
         </div>
-        
-        <motion.button
+
+        <Button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => navigate('/')}
@@ -38,10 +40,10 @@ function NotFound() {
             <ApperIcon name="Home" size={16} />
             <span>Go Home</span>
           </div>
-        </motion.button>
+        </Button>
       </motion.div>
     </div>
   );
 }
 
-export default NotFound;
+export default NotFoundPage;

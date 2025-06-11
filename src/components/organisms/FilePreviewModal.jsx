@@ -1,6 +1,7 @@
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect } from 'react';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
 
 function FilePreviewModal({ file, onClose }) {
   useEffect(() => {
@@ -57,15 +58,15 @@ function FilePreviewModal({ file, onClose }) {
                 </p>
               </div>
             </div>
-            
-            <motion.button
+
+            <Button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={onClose}
               className="p-2 rounded-lg hover:bg-surface-100 text-surface-400 hover:text-surface-600 transition-colors flex-shrink-0"
             >
               <ApperIcon name="X" size={20} />
-            </motion.button>
+            </Button>
           </div>
 
           {/* Image Preview */}
@@ -84,14 +85,14 @@ function FilePreviewModal({ file, onClose }) {
             <div className="text-sm text-surface-500">
               Press ESC to close
             </div>
-            <motion.button
+            <Button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onClose}
               className="px-4 py-2 rounded-lg gradient-primary text-white font-medium shadow-sm hover:shadow-md transition-shadow"
             >
               Close
-            </motion.button>
+            </Button>
           </div>
         </motion.div>
       </div>
