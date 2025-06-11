@@ -1,0 +1,38 @@
+[
+  {
+    "id": "session_1699123456789_abc123",
+    "totalFiles": 4,
+    "totalSize": 7833600,
+    "uploadedFiles": 3,
+    "uploadedSize": 6809600,
+    "startTime": 1699123200000,
+    "endTime": 1699123500000,
+    "status": "completed",
+    "createdAt": 1699123200000,
+    "completedAt": 1699123500000
+  },
+  {
+    "id": "session_1699120000000_def456", 
+    "totalFiles": 2,
+    "totalSize": 4864000,
+    "uploadedFiles": 1,
+    "uploadedSize": 3840000,
+    "startTime": 1699120000000,
+    "endTime": null,
+    "status": "active",
+    "createdAt": 1699120000000,
+    "updatedAt": 1699120030000
+  },
+  {
+    "id": "session_1699118400000_ghi789",
+    "totalFiles": 1,
+    "totalSize": 1024000, 
+    "uploadedFiles": 1,
+    "uploadedSize": 1024000,
+    "startTime": 1699118400000,
+    "endTime": 1699118460000,
+    "status": "completed",
+    "createdAt": 1699118400000,
+    "completedAt": 1699118460000
+  }
+]
